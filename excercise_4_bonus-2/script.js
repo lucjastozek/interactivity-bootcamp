@@ -50,50 +50,37 @@ function use() {
   window.requestAnimationFrame(use);
 }
 
-function isOnCircle(x, y, circle) {
-  if (x < circle.x - 25 || x > circle.x + 25) {
-    return false;
-  }
-
-  if (y < circle.y - 25 || y > circle.y + 25) {
-    return false;
-  }
-
-  return true;
-}
-
 /**
  *
  * @param {PointerEvent} event
  */
 function handleClick(event) {
   let { circles } = state;
-  const notCollidingCircles = [];
 
-  for (const circle of circles) {
-    if (!isOnCircle(event.clientX, event.clientY, circle)) {
-      notCollidingCircles.push(circle);
-    }
-  }
+  let newCircles = [...circles];
 
-  if (notCollidingCircles.length === circles.length) {
-    let newCircles = [...circles];
+  const circleElement = document.createElement("div");
+  circleElement.classList.add("circle");
+  circleElement.addEventListener("mouseover", (event) => {
+    document.body.removeChild(circleElement);
+    const { circles } = state;
 
-    const circleElement = document.createElement("div");
-    circleElement.classList.add("circle");
-
-    const newCircle = {
-      x: event.clientX,
-      y: event.clientY,
-      element: circleElement,
-    };
-
-    newCircles.push(newCircle);
+    const newCircles = circles.filter(
+      (circle) => circle.element !== circleElement
+    );
 
     updateState({ ...state, circles: newCircles });
-  } else {
-    updateState({ ...state, circles: notCollidingCircles });
-  }
+  });
+
+  const newCircle = {
+    x: event.clientX,
+    y: event.clientY,
+    element: circleElement,
+  };
+
+  newCircles.push(newCircle);
+
+  updateState({ ...state, circles: newCircles });
 }
 
 /**
@@ -117,6 +104,16 @@ function createCircle() {
 
   const circleElement = document.createElement("div");
   circleElement.classList.add("circle");
+  circleElement.addEventListener("mouseover", (event) => {
+    document.body.removeChild(circleElement);
+    const { circles } = state;
+
+    const newCircles = circles.filter(
+      (circle) => circle.element !== circleElement
+    );
+
+    updateState({ ...state, circles: newCircles });
+  });
 
   const newCircle = {
     x: Math.random() * window.innerWidth,
