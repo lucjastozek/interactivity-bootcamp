@@ -29,12 +29,9 @@ function updateState(newState) {
  */
 function update() {
   const { hue } = state;
-  let { growing } = state;
+  const newHue = (hue + 1) % 360;
 
-  let newHue = (hue + 1) % 360;
-
-  updateState({ ...state, hue: newHue });
-
+  updateState({ hue: newHue });
   setTimeout(update, 50);
 }
 
@@ -54,9 +51,9 @@ function use() {
 }
 
 function handleClick() {
-  const { size } = state;
-  let { growing } = state;
+  const { size, growing } = state;
   let newSize;
+  let newGrowing = growing;
 
   if (growing) {
     newSize = size * 1.1;
@@ -65,12 +62,12 @@ function handleClick() {
   }
 
   if (newSize >= 500) {
-    growing = false;
+    newGrowing = false;
   } else if (newSize <= 50) {
-    growing = true;
+    newGrowing = true;
   }
 
-  updateState({ ...state, size: newSize, growing });
+  updateState({ size: newSize, growing: newGrowing });
 }
 
 /**

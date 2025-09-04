@@ -28,9 +28,9 @@ function updateState(newState) {
  * update() is run every 10 ms, assuming that we keep calling it with `setTimeout`.
  */
 function update() {
-  const { size, hue } = state;
-  let { growing } = state;
+  const { size, hue, growing } = state;
   let newSize;
+  let newGrowing = growing;
 
   if (growing) {
     newSize = size * 1.1;
@@ -39,15 +39,14 @@ function update() {
   }
 
   if (newSize >= 500) {
-    growing = false;
+    newGrowing = false;
   } else if (newSize <= 50) {
-    growing = true;
+    newGrowing = true;
   }
 
-  let newHue = (hue + 1) % 360;
+  const newHue = (hue + 1) % 360;
 
-  updateState({ ...state, size: newSize, hue: newHue, growing });
-
+  updateState({ size: newSize, hue: newHue, growing: newGrowing });
   setTimeout(update, size);
 }
 

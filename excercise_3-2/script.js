@@ -47,9 +47,9 @@ function use() {
 }
 
 function handleClick() {
-  const { size } = state;
-  let { growing } = state;
+  const { size, growing } = state;
   let newSize;
+  let newGrowing = growing;
 
   if (growing) {
     newSize = size * 1.1;
@@ -58,12 +58,12 @@ function handleClick() {
   }
 
   if (newSize >= 500) {
-    growing = false;
+    newGrowing = false;
   } else if (newSize <= 50) {
-    growing = true;
+    newGrowing = true;
   }
 
-  updateState({ ...state, size: newSize, growing });
+  updateState({ size: newSize, growing: newGrowing });
 }
 
 /**
@@ -71,14 +71,8 @@ function handleClick() {
  * @param {PointerEvent} event
  */
 function handleMove(event) {
-  const pointerPos = {
-    x: event.clientX,
-    y: event.clientY,
-  };
-
-  let newHue = (pointerPos.x / window.innerWidth) * 360;
-
-  updateState({ ...state, hue: newHue });
+  const newHue = (event.clientX / window.innerWidth) * 360;
+  updateState({ hue: newHue });
 }
 
 /**

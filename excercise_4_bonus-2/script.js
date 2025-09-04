@@ -55,23 +55,10 @@ function use() {
  * @param {PointerEvent} event
  */
 function handleClick(event) {
-  let { circles } = state;
+  const { circles } = state;
+  const newCircles = [...circles];
 
-  let newCircles = [...circles];
-
-  const circleElement = document.createElement("div");
-  circleElement.classList.add("circle");
-  circleElement.addEventListener("mouseover", (event) => {
-    document.body.removeChild(circleElement);
-    const { circles } = state;
-
-    const newCircles = circles.filter(
-      (circle) => circle.element !== circleElement
-    );
-
-    updateState({ ...state, circles: newCircles });
-  });
-
+  const circleElement = createCircleElement();
   const newCircle = {
     x: event.clientX,
     y: event.clientY,
@@ -79,8 +66,7 @@ function handleClick(event) {
   };
 
   newCircles.push(newCircle);
-
-  updateState({ ...state, circles: newCircles });
+  updateState({ circles: newCircles });
 }
 
 /**
@@ -88,33 +74,46 @@ function handleClick(event) {
  * @param {PointerEvent} event
  */
 function handleMove(event) {
-  const pointerPos = {
-    x: event.clientX,
-    y: event.clientY,
-  };
+  const newHue = (event.clientX / window.innerWidth) * 360;
+  updateState({ hue: newHue });
+}
 
-  let newHue = (pointerPos.x / window.innerWidth) * 360;
+/**
+ * Creates a circle element with hover behavior for removal
+ * @returns {HTMLElement} The created circle element
+ */
+function createCircleElement() {
+  const circleElement = document.createElement("div");
+  circleElement.classList.add("circle");
 
-  updateState({ ...state, hue: newHue });
+  circleElement.addEventListener("mouseover", () => {
+    removeCircle(circleElement);
+  });
+
+  return circleElement;
+}
+
+/**
+ * Removes a circle from the DOM and state
+ * @param {HTMLElement} circleElement - The circle element to remove
+ */
+function removeCircle(circleElement) {
+  if (document.body.contains(circleElement)) {
+    document.body.removeChild(circleElement);
+  }
+
+  const { circles } = state;
+  const newCircles = circles.filter((circle) => {
+    return circle.element !== circleElement;
+  });
+  updateState({ circles: newCircles });
 }
 
 function createCircle() {
-  let { circles } = state;
-  let newCircles = [...circles];
+  const { circles } = state;
+  const newCircles = [...circles];
 
-  const circleElement = document.createElement("div");
-  circleElement.classList.add("circle");
-  circleElement.addEventListener("mouseover", (event) => {
-    document.body.removeChild(circleElement);
-    const { circles } = state;
-
-    const newCircles = circles.filter(
-      (circle) => circle.element !== circleElement
-    );
-
-    updateState({ ...state, circles: newCircles });
-  });
-
+  const circleElement = createCircleElement();
   const newCircle = {
     x: Math.random() * window.innerWidth,
     y: Math.random() * window.innerHeight,
@@ -122,9 +121,8 @@ function createCircle() {
   };
 
   newCircles.push(newCircle);
-
   document.body.appendChild(circleElement);
-  updateState({ ...state, circles: newCircles });
+  updateState({ circles: newCircles });
 }
 
 /**

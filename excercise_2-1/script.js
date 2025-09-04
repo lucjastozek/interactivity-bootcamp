@@ -27,11 +27,9 @@ function updateState(newState) {
  */
 function update() {
   const { size } = state;
+  const newSize = size + 1;
 
-  let newSize = size + 1;
-
-  updateState({ ...state, size: newSize });
-
+  updateState({ size: newSize });
   setTimeout(update, 10);
 }
 

@@ -51,8 +51,8 @@ function use() {
  * @param {PointerEvent} event
  */
 function handleClick(event) {
-  let { circles } = state;
-  let newCircles = [...circles];
+  const { circles } = state;
+  const newCircles = [...circles];
 
   const circleElement = document.createElement("div");
   circleElement.classList.add("circle");
@@ -64,9 +64,8 @@ function handleClick(event) {
   };
 
   newCircles.push(newCircle);
-
   document.body.appendChild(circleElement);
-  updateState({ ...state, circles: newCircles });
+  updateState({ circles: newCircles });
 }
 
 /**
@@ -74,19 +73,14 @@ function handleClick(event) {
  * @param {PointerEvent} event
  */
 function handleMove(event) {
-  const pointerPos = {
-    x: event.clientX,
-    y: event.clientY,
-  };
+  const newHue = (event.clientX / window.innerWidth) * 360;
 
-  let newHue = (pointerPos.x / window.innerWidth) * 360;
-
-  updateState({ ...state, hue: newHue });
+  updateState({ hue: newHue });
 }
 
 function createCircle() {
-  let { circles } = state;
-  let newCircles = [...circles];
+  const { circles } = state;
+  const newCircles = [...circles];
 
   const circleElement = document.createElement("div");
   circleElement.classList.add("circle");
@@ -98,9 +92,8 @@ function createCircle() {
   };
 
   newCircles.push(newCircle);
-
   document.body.appendChild(circleElement);
-  updateState({ ...state, circles: newCircles });
+  updateState({ circles: newCircles });
 }
 
 /**

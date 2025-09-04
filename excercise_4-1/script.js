@@ -49,8 +49,8 @@ function use() {
  * @param {PointerEvent} event
  */
 function handleClick(event) {
-  let { circles } = state;
-  let newCircles = [...circles];
+  const { circles } = state;
+  const newCircles = [...circles];
 
   const circleElement = document.createElement("div");
   circleElement.classList.add("circle");
@@ -62,14 +62,13 @@ function handleClick(event) {
   };
 
   newCircles.push(newCircle);
-
   document.body.appendChild(circleElement);
-  updateState({ ...state, circles: newCircles });
+  updateState({ circles: newCircles });
 }
 
 function createCircle() {
-  let { circles } = state;
-  let newCircles = [...circles];
+  const { circles } = state;
+  const newCircles = [...circles];
 
   const circleElement = document.createElement("div");
   circleElement.classList.add("circle");
@@ -81,9 +80,8 @@ function createCircle() {
   };
 
   newCircles.push(newCircle);
-
   document.body.appendChild(circleElement);
-  updateState({ ...state, circles: newCircles });
+  updateState({ circles: newCircles });
 }
 
 /**

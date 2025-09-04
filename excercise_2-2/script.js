@@ -31,9 +31,8 @@ function update() {
 
   if (size <= 500) {
     newSize = size * 1.1;
+    updateState({ size: newSize });
   }
-
-  updateState({ ...state, size: newSize });
 
   setTimeout(update, 50);
 }
