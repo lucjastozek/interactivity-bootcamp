@@ -44,7 +44,7 @@ function update() {
     newGrowing = true;
   }
 
-  const newHue = (hue + 1) % 360;
+  const newHue = hue + 1;
 
   updateState({ size: newSize, hue: newHue, growing: newGrowing });
   setTimeout(update, 50);

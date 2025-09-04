@@ -29,7 +29,7 @@ function updateState(newState) {
  */
 function update() {
   const { hue } = state;
-  const newHue = (hue + 1) % 360;
+  const newHue = hue + 1;
 
   updateState({ hue: newHue });
   setTimeout(update, 50);
